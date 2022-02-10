@@ -1,3 +1,4 @@
+using Localiza.Frotas.Infra.Singleton;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,10 @@ builder.Services.AddSwaggerGen(c =>
 
 
 });
+
+//-> Singleton unica instancia
+builder.Services.AddSingleton<SingletonContainer>();  //-> utilizar Singleton maneira auto (definir a classe)
+
 
 var app = builder.Build();
 
