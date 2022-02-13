@@ -1,3 +1,5 @@
+using Localiza.Frotas.Domain;
+using Localiza.Frotas.Infra.Repository;
 using Localiza.Frotas.Infra.Singleton;
 using Microsoft.OpenApi.Models;
 
@@ -26,6 +28,9 @@ builder.Services.AddSwaggerGen(c =>
 
 //-> Singleton unica instancia
 builder.Services.AddSingleton<SingletonContainer>();  //-> utilizar Singleton maneira auto (definir a classe)
+
+
+builder.Services.AddSingleton<IVeiculoRepository,InMemoryRepository>();
 
 
 var app = builder.Build();
