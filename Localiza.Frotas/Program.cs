@@ -1,6 +1,8 @@
 using Localiza.Frotas.Domain;
 using Localiza.Frotas.Infra.Repository;
+using Localiza.Frotas.Infra.Repository.EF;
 using Localiza.Frotas.Infra.Singleton;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,7 +32,12 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddSingleton<SingletonContainer>();  //-> utilizar Singleton maneira auto (definir a classe)
 
 
-builder.Services.AddSingleton<IVeiculoRepository,InMemoryRepository>();
+//builder.Services.AddSingleton<IVeiculoRepository,InMemoryRepository>();
+
+builder.Services.AddTransient<IVeiculoRepository, FrotaRepository>(); // AddTransient -> cria um intancia sempre que chamado
+
+
+builder.Services.AddDbContext<FrotaContext>(opt => opt.UseInMemoryDatabase("Frota")); //-> conexão string
 
 
 var app = builder.Build();
