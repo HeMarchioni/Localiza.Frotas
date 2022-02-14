@@ -1,9 +1,10 @@
 using Localiza.Frotas.Domain;
-using Localiza.Frotas.Infra.Repository;
+using Localiza.Frotas.Infra.Facade;
 using Localiza.Frotas.Infra.Repository.EF;
 using Localiza.Frotas.Infra.Singleton;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +37,16 @@ builder.Services.AddSingleton<SingletonContainer>();  //-> utilizar Singleton ma
 
 builder.Services.AddTransient<IVeiculoRepository, FrotaRepository>(); // AddTransient -> cria um intancia sempre que chamado
 
+builder.Services.AddTransient<IVeiculoDetran, VeiculoDetranFacade>();
 
 builder.Services.AddDbContext<FrotaContext>(opt => opt.UseInMemoryDatabase("Frota")); //-> conexão string
+
+
+builder.Services.AddHttpClient();
+
+
+builder.Services.Configure<DetranOptions>(builder.Configuration.GetSection("DetranOptions")); //-> pegando do appSettings 
+
 
 
 var app = builder.Build();
